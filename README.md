@@ -28,7 +28,7 @@ tasks.shadowJar {
 ```
 
 **build.gradle.kts:** (Use `gradlew shadowJar`)
-```groovy
+```kts
 plugins {
     id("com.gradleup.shadow") version "8.3.5"
 }

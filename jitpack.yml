@@ -3,6 +3,5 @@ jdk:
 maven:
   version: 3.9.9
 before_install:
-  - mvn -version
-#  - chmod +x buildtools.sh
-#  - ./buildtools.sh
+  - chmod +x buildtools.sh
+  - ./buildtools.sh

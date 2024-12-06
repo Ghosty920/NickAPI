@@ -12,19 +12,19 @@ You can include the plugin using [JitPack](https://jitpack.io/#Ghosty920/NickAPI
 
 ```groovy
 plugins {
-    id 'com.gradleup.shadow' version '8.3.5'
+   id 'com.gradleup.shadow' version '8.3.5'
 }
 
 repositories {
-    maven { url 'https://jitpack.io' }
+   maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation 'com.github.Ghosty920:NickAPI:master-SNAPSHOT'
+   implementation 'com.github.Ghosty920.NickAPI:Main:main-SNAPSHOT'
 }
 
 tasks.shadowJar {
-    relocate 'xyz.haoshoku.nick', 'myproject.deps.xyz.haoshoku.nick'
+   relocate 'xyz.haoshoku.nick', 'myproject.deps.xyz.haoshoku.nick'
 }
 ```
 
@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.Ghosty920:NickAPI:master-SNAPSHOT")
+    implementation("com.github.Ghosty920.NickAPI:Main:main-SNAPSHOT")
 }
 
 tasks.shadowJar {
@@ -53,35 +53,35 @@ tasks.shadowJar {
 ```xml
 
 <repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
+   <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+   </repository>
 </repositories>
 
 <dependencies>
-<dependency>
-    <groupId>com.github.Ghosty920</groupId>
-    <artifactId>NickAPI</artifactId>
-    <version>master-SNAPSHOT</version>
-</dependency>
+   <dependency>
+      <groupId>com.github.Ghosty920.NickAPI</groupId>
+      <artifactId>Main</artifactId>
+      <version>main-SNAPSHOT</version>
+   </dependency>
 </dependencies>
 
 <build>
 <plugins>
-    <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.5.3</version>
-        <executions>
-            <execution>
-                <phase>package</phase>
-                <goals>
-                    <goal>shade</goal>
-                </goals>
-            </execution>
-        </executions>
-    </plugin>
+   <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-shade-plugin</artifactId>
+      <version>3.5.3</version>
+      <executions>
+         <execution>
+            <phase>package</phase>
+            <goals>
+               <goal>shade</goal>
+            </goals>
+         </execution>
+      </executions>
+   </plugin>
 </plugins>
 </build>
 ```
@@ -108,12 +108,12 @@ public class MyPlugin extends JavaPlugin {
 ```
 
 All methods can be found in
-the [NickAPI class](https://github.com/Ghosty920/NickAPI/blob/master/API/src/main/java/xyz/haoshoku/nick/NickAPI.java).
+the [NickAPI class](https://github.com/Ghosty920/NickAPI/blob/main/API/src/main/java/xyz/haoshoku/nick/NickAPI.java).
 
 ## Building
 
 1. Use [BuildTools](https://www.spigotmc.org/wiki/buildtools/) to make a build of all Spigot versions you need. (in this
-   case, 1.21.3, 1.21.1, 1.20.6, 1.20.4, 1.20.2, and 1.20.1).
+   case, 1.21.3, 1.21.1, 1.20.6, 1.20.4, 1.20.2, and 1.20.1), or `buildtools.sh` with Java 21
 2. Run `mvn clean install`
 
 ## Credits

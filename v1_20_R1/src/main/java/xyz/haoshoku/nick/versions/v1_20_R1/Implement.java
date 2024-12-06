@@ -25,6 +25,7 @@ import java.util.EnumSet;
 
 public class Implement
 	extends AImplement {
+	
 	@Override
 	public void removeInfoPacket(Player player, Player player1) {
 	}
@@ -33,13 +34,13 @@ public class Implement
 	public void destroyPacket(Player player, Player toHide) {
 		ClientboundRemoveEntitiesPacket destroy = new ClientboundRemoveEntitiesPacket(player.getEntityId());
 		if (player != toHide) {
-			((CraftPlayer)toHide).getHandle().connection.send(destroy);
+			((CraftPlayer) toHide).getHandle().connection.send(destroy);
 		}
 	}
 	
 	@Override
 	public synchronized void sendPackets(Player player, boolean respawnPacket, boolean skinChanging) {
-		ServerPlayer serverPlayer = ((CraftPlayer)player).getHandle();
+		ServerPlayer serverPlayer = ((CraftPlayer) player).getHandle();
 		NickUser user = NickHandler.getUser(player);
 		if (user == null) {
 			return;
@@ -73,8 +74,7 @@ public class Implement
 				Method declaredMethod = serverPlayer.connection.getClass().getDeclaredMethod("internalTeleport", Double.TYPE, Double.TYPE, Double.TYPE, Float.TYPE, Float.TYPE, Class.forName("java.util.Set"));
 				declaredMethod.setAccessible(true);
 				declaredMethod.invoke(serverPlayer.connection, location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), Collections.emptySet());
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 			playerList.sendPlayerPermissionLevel(serverPlayer);
@@ -87,4 +87,5 @@ public class Implement
 		}
 		user.setRefreshingPlayer(false);
 	}
+	
 }

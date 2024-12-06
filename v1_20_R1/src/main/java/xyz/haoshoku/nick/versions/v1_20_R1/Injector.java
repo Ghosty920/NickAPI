@@ -25,11 +25,12 @@ import java.util.List;
 public class Injector
 	implements IInject,
 	Listener {
+	
 	public Injector() {
 		Bukkit.getPluginManager().registerEvents(this, NickAPI.getPlugin());
 	}
 	
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		Bukkit.getScheduler().runTaskLater(NickAPI.getPlugin(), () -> {
@@ -85,8 +86,7 @@ public class Injector
 		if (pipeline != null && pipeline.get("nickapi") == null && pipeline.names().contains("packet_handler")) {
 			if (NickAPI.getConfig().getPacketInjection() == 0) {
 				pipeline.addBefore("packet_handler", "nickapi", duplexHandler);
-			}
-			else {
+			} else {
 				pipeline.addAfter("packet_handler", "nickapi", duplexHandler);
 			}
 		}
@@ -103,7 +103,7 @@ public class Injector
 	
 	@Override
 	public void applyGameProfile(Player player) {
-		CraftPlayer craftPlayer = (CraftPlayer)player;
+		CraftPlayer craftPlayer = (CraftPlayer) player;
 		NickUser user = NickHandler.getUser(player);
 		if (user == null) {
 			return;
@@ -124,15 +124,15 @@ public class Injector
 	}
 	
 	private ChannelPipeline pipeline(Player player) {
-		ServerGamePacketListenerImpl serverGamePacketListener = ((CraftPlayer)player).getHandle().connection;
+		ServerGamePacketListenerImpl serverGamePacketListener = ((CraftPlayer) player).getHandle().connection;
 		try {
 			Field field = serverGamePacketListener.getClass().getDeclaredField("h");
 			field.setAccessible(true);
-			Connection connectionField = (Connection)field.get(serverGamePacketListener);
+			Connection connectionField = (Connection) field.get(serverGamePacketListener);
 			return connectionField.channel.pipeline();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
+	
 }

@@ -61,4 +61,5 @@ public final class SkinFetcher {
 	public LoadingCache<UUID, String[]> getDataCache() {
 		return this.cache;
 	}
+	
 }

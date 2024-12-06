@@ -6,7 +6,6 @@ import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import xyz.haoshoku.nick.NickAPI;
-import xyz.haoshoku.nick.NickConfig;
 import xyz.haoshoku.nick.user.NickHandler;
 import xyz.haoshoku.nick.user.NickUser;
 import xyz.haoshoku.nick.utils.*;

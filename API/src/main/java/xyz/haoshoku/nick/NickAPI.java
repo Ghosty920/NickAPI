@@ -29,7 +29,7 @@ public final class NickAPI {
 	private static AImplement implementation;
 	
 	public static void setPlugin(@NotNull final Plugin plugin) {
-		if(config == null)
+		if (config == null)
 			setupConfig((ConfigurationSection) null);
 		NickAPI.plugin = plugin;
 		handler = new Handler();

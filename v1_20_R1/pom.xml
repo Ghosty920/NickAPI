@@ -41,7 +41,7 @@
         <dependency>
             <groupId>xyz.haoshoku.nick</groupId>
             <artifactId>API</artifactId>
-            <version>gf1.0.0</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

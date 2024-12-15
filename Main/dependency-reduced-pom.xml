@@ -3,7 +3,7 @@
   <parent>
     <artifactId>NickAPI</artifactId>
     <groupId>xyz.haoshoku.nick</groupId>
-    <version>v1.0.1_c</version>
+    <version>v1.0.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>Main</artifactId>
@@ -15,7 +15,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.5.3</version>
+        <version>3.2.4</version>
         <executions>
           <execution>
             <phase>package</phase>

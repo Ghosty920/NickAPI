@@ -83,11 +83,11 @@ public class Injector
 			}
 		};
 		final ChannelPipeline pipeline = this.pipeline(player);
-		if (pipeline != null && pipeline.get("nickapi") == null && pipeline.names().contains("packet_handler")) {
+		if (pipeline != null && pipeline.get(IInject.pipelineName()) == null && pipeline.names().contains("packet_handler")) {
 			if (NickAPI.getConfig().getPacketInjection() == 0) {
-				pipeline.addBefore("packet_handler", "nickapi", duplexHandler);
+				pipeline.addBefore("packet_handler", IInject.pipelineName(), duplexHandler);
 			} else {
-				pipeline.addAfter("packet_handler", "nickapi", duplexHandler);
+				pipeline.addAfter("packet_handler", IInject.pipelineName(), duplexHandler);
 			}
 		}
 	}
@@ -95,8 +95,8 @@ public class Injector
 	@Override
 	public void uninject(Player player) {
 		ChannelPipeline pipeline = this.pipeline(player);
-		if (pipeline != null && pipeline.get("nickapi") != null) {
-			pipeline.remove("nickapi");
+		if (pipeline != null && pipeline.get(IInject.pipelineName()) != null) {
+			pipeline.remove(IInject.pipelineName());
 		}
 		NickHandler.deleteUser(player);
 	}

@@ -6,7 +6,7 @@
     <parent>
         <groupId>xyz.haoshoku.nick</groupId>
         <artifactId>NickAPI</artifactId>
-        <version>v1.0.1_c</version>
+        <version>v1.0.2</version>
     </parent>
 
     <artifactId>Main</artifactId>
@@ -43,12 +43,12 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>xyz.haoshoku.nick</groupId>
             <artifactId>v1_20_R4</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>xyz.haoshoku.nick</groupId>
             <artifactId>v1_21_R1</artifactId>
@@ -58,6 +58,12 @@
         <dependency>
             <groupId>xyz.haoshoku.nick</groupId>
             <artifactId>v1_21_R2</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>xyz.haoshoku.nick</groupId>
+            <artifactId>v1_21_R3</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

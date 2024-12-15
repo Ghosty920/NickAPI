@@ -6,7 +6,7 @@
     <parent>
         <groupId>xyz.haoshoku.nick</groupId>
         <artifactId>NickAPI</artifactId>
-        <version>v1.0.1_c</version>
+        <version>v1.0.2</version>
     </parent>
 
     <artifactId>v1_21_R1</artifactId>

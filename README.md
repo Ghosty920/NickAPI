@@ -113,7 +113,7 @@ the [NickAPI class](https://github.com/Ghosty920/NickAPI/blob/main/API/src/main/
 ## Building
 
 1. Use [BuildTools](https://www.spigotmc.org/wiki/buildtools/) to make a build of all Spigot versions you need. (in this
-   case, 1.21.3, 1.21.1, 1.20.6, 1.20.4, 1.20.2, and 1.20.1), or `buildtools.sh` with Java 21
+   case, 1.21.4, 1.21.3, 1.21.1, 1.20.6, 1.20.4, 1.20.2, and 1.20.1), or `buildtools.sh` with Java 21
 2. Run `mvn clean install`
 
 ## Credits

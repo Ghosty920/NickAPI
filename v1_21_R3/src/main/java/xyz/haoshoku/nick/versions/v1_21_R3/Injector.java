@@ -1,4 +1,4 @@
-package xyz.haoshoku.nick.versions.v1_21_R1;
+package xyz.haoshoku.nick.versions.v1_21_R3;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -7,7 +7,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_21_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -66,7 +66,7 @@ public class Injector implements IInject, Listener {
 											final GameProfile profile = new GameProfile(receivedProfile.getId(), user.getNickProfile().getName());
 											profile.getProperties().removeAll("textures");
 											profile.getProperties().put("textures", new Property("textures", user.getSkinData()[0], user.getSkinData()[1]));
-											final ClientboundPlayerInfoUpdatePacket.Entry newInfoData = new ClientboundPlayerInfoUpdatePacket.Entry(receivedProfile.getId(), profile, infoData.listed(), infoData.latency(), infoData.gameMode(), infoData.displayName(), infoData.chatSession());
+											final ClientboundPlayerInfoUpdatePacket.Entry newInfoData = new ClientboundPlayerInfoUpdatePacket.Entry(receivedProfile.getId(), profile, infoData.listed(), infoData.latency(), infoData.gameMode(), infoData.displayName(), infoData.showHat(), infoData.listOrder(), infoData.chatSession());
 											infoDataListClone.set(i, newInfoData);
 											NickScoreboard.updateScoreboard(user.getNickProfile().getName());
 										}

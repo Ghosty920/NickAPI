@@ -17,16 +17,7 @@ public class Handler {
 	private AImplement aImplement;
 	
 	public Handler() {
-		String versionTemp = "ERROR";
-		final String bukkitVersion = Bukkit.getBukkitVersion();
-		if (bukkitVersion.startsWith("1.21.2") || bukkitVersion.startsWith("1.21.3")) {
-			versionTemp = "v1_21_R2";
-		} else if (bukkitVersion.startsWith("1.21") || bukkitVersion.startsWith("1.21.1")) {
-			versionTemp = "v1_21_R1";
-		} else if (bukkitVersion.startsWith("1.20.5") || bukkitVersion.startsWith("1.20.6")) {
-			versionTemp = "v1_20_R4";
-		}
-		this.version = versionTemp;
+		this.version = MCVersion.find().name();
 		try {
 			this.initializeVersion();
 		} catch (final Exception e) {

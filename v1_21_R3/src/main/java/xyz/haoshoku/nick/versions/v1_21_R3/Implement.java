@@ -70,9 +70,9 @@ public class Implement extends AImplement {
 			serverPlayer.connection.send(new ClientboundRespawnPacket(serverPlayer.createCommonSpawnInfo(worldServer), (byte) 3));
 			serverPlayer.onUpdateAbilities();
 			try {
-				Method declaredMethod = serverPlayer.connection.getClass().getDeclaredMethod("internalTeleport", Double.TYPE, Double.TYPE, Double.TYPE, Float.TYPE, Float.TYPE, Class.forName("java.util.Set"));
+				Method declaredMethod = serverPlayer.connection.getClass().getDeclaredMethod("internalTeleport", Double.TYPE, Double.TYPE, Double.TYPE, Float.TYPE, Float.TYPE);
 				declaredMethod.setAccessible(true);
-				declaredMethod.invoke(serverPlayer.connection, location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), Collections.emptySet());
+				declaredMethod.invoke(serverPlayer.connection, location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

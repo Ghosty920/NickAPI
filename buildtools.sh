@@ -21,3 +21,5 @@ java -jar BuildTools.jar --nogui --rev 1.20.6 --remapped --compile SPIGOT
 java -jar BuildTools.jar --nogui --rev 1.21.1 --remapped --compile SPIGOT
 java -jar BuildTools.jar --nogui --rev 1.21.3 --remapped --compile SPIGOT
 java -jar BuildTools.jar --nogui --rev 1.21.4 --remapped --compile SPIGOT
+java -jar BuildTools.jar --nogui --rev 1.21.5 --remapped --compile SPIGOT
+java -jar BuildTools.jar --nogui --rev 1.21.6 --remapped --compile SPIGOT

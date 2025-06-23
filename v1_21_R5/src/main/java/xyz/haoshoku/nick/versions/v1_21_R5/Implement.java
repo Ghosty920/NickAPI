@@ -1,4 +1,4 @@
-package xyz.haoshoku.nick.versions.v1_20_R4;
+package xyz.haoshoku.nick.versions.v1_21_R5;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -9,8 +9,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.player.PlayerModelPart;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R5.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import xyz.haoshoku.nick.impl.AImplement;
 import xyz.haoshoku.nick.user.NickHandler;
@@ -58,12 +59,12 @@ public class Implement extends AImplement {
 		ClientboundPlayerInfoRemovePacket removeInfo = new ClientboundPlayerInfoRemovePacket(Collections.singletonList(player.getUniqueId()));
 		EnumSet<ClientboundPlayerInfoUpdatePacket.Action> actions = NickUtils.getEnumSet(ClientboundPlayerInfoUpdatePacket.Action.values());
 		ClientboundPlayerInfoUpdatePacket addInfo = new ClientboundPlayerInfoUpdatePacket(actions, Collections.singletonList(serverPlayer));
-		Reflection.setField(addInfo, "c", Collections.singletonList(new ClientboundPlayerInfoUpdatePacket.Entry(player.getUniqueId(), copiedGameProfile, true, player.getPing(), serverPlayer.gameMode.getGameModeForPlayer(), null, Optionull.map(serverPlayer.getChatSession(), RemoteChatSession::asData))));
+		Reflection.setField(addInfo, "c", Collections.singletonList(new ClientboundPlayerInfoUpdatePacket.Entry(player.getUniqueId(), copiedGameProfile, true, player.getPing(), serverPlayer.gameMode.getGameModeForPlayer(), null, serverPlayer.isModelPartShown(PlayerModelPart.HAT), serverPlayer.listOrder, Optionull.map(serverPlayer.getChatSession(), RemoteChatSession::asData))));
 		serverPlayer.connection.send(removeInfo);
 		serverPlayer.connection.send(addInfo);
 		Location location = player.getLocation().clone();
 		if (respawnPacket && skinChanging) {
-			ServerLevel worldServer = serverPlayer.serverLevel();
+			ServerLevel worldServer = serverPlayer.level();
 			PlayerList playerList = serverPlayer.server.getPlayerList();
 			serverPlayer.connection.send(new ClientboundRespawnPacket(serverPlayer.createCommonSpawnInfo(worldServer), (byte) 3));
 			serverPlayer.onUpdateAbilities();

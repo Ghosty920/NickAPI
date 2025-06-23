@@ -20,8 +20,7 @@ import xyz.haoshoku.nick.utils.NickUtils;
 import xyz.haoshoku.nick.utils.Reflection;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.EnumSet;
+import java.util.*;
 
 public class Implement
 	extends AImplement {
@@ -71,7 +70,7 @@ public class Implement
 			serverPlayer.connection.send(new ClientboundRespawnPacket(worldServer.dimensionTypeId(), worldServer.dimension(), BiomeManager.obfuscateSeed(worldServer.getSeed()), serverPlayer.gameMode.getGameModeForPlayer(), serverPlayer.gameMode.getPreviousGameModeForPlayer(), worldServer.isDebug(), worldServer.isFlat(), (byte) 3, serverPlayer.getLastDeathLocation(), serverPlayer.getPortalCooldown()));
 			serverPlayer.onUpdateAbilities();
 			try {
-				Method declaredMethod = serverPlayer.connection.getClass().getDeclaredMethod("internalTeleport", Double.TYPE, Double.TYPE, Double.TYPE, Float.TYPE, Float.TYPE, Class.forName("java.util.Set"));
+				Method declaredMethod = serverPlayer.connection.getClass().getDeclaredMethod("internalTeleport", Double.TYPE, Double.TYPE, Double.TYPE, Float.TYPE, Float.TYPE, Set.class);
 				declaredMethod.setAccessible(true);
 				declaredMethod.invoke(serverPlayer.connection, location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), Collections.emptySet());
 			} catch (Exception e) {

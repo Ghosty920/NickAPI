@@ -2,6 +2,3 @@ jdk:
   - openjdk21
 maven:
   version: 3.9.6
-#before_install:
-#  - chmod +x buildtools.sh
-#  - ./buildtools.sh

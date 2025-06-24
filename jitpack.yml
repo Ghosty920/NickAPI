@@ -1,4 +1,0 @@
-jdk:
-  - openjdk21
-maven:
-  version: 3.9.6

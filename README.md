@@ -134,7 +134,7 @@ the [NickAPI class](https://github.com/Ghosty920/NickAPI/blob/main/API/src/main/
 
 ## Building
 
-Simply run `mvn clean package install -f pom.xml`, and it will automatically build and install it to your `.m2` folder.
+Simply run `mvn clean install -f pom.xml`, and it will automatically build and install it to your `.m2` folder.
 
 Make sure to build using Java 21.
 

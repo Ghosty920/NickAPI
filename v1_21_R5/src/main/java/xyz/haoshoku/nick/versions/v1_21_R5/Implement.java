@@ -68,7 +68,7 @@ public class Implement extends AImplement {
 			ServerLevel worldServer = serverPlayer.level();
 			PlayerList playerList;
 			try {
-				Field fieldServer = serverPlayer.getClass().getDeclaredField("aW");
+				Field fieldServer = ServerPlayer.class.getDeclaredField("aW");
 				fieldServer.setAccessible(true);
 				playerList = (PlayerList) fieldServer.get(serverPlayer);
 			} catch (Exception exc) {

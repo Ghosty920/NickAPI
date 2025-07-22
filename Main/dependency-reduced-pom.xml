@@ -3,7 +3,7 @@
   <parent>
     <artifactId>NickAPI</artifactId>
     <groupId>xyz.haoshoku.nick</groupId>
-    <version>v1.0.5a</version>
+    <version>v1.0.5b</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>Main</artifactId>

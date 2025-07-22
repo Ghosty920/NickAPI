@@ -19,6 +19,7 @@ import xyz.haoshoku.nick.user.NickUser;
 import xyz.haoshoku.nick.utils.NickUtils;
 import xyz.haoshoku.nick.utils.Reflection;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -65,7 +66,15 @@ public class Implement extends AImplement {
 		Location location = player.getLocation().clone();
 		if (respawnPacket && skinChanging) {
 			ServerLevel worldServer = serverPlayer.level();
-			PlayerList playerList = serverPlayer.server.getPlayerList();
+			PlayerList playerList;
+			try {
+				Field fieldServer = serverPlayer.getClass().getDeclaredField("aW");
+				fieldServer.setAccessible(true);
+				playerList = fieldServer.get(serverPlayer);
+			} catch (Exception exc) {
+				throw new RuntimeException(exc);
+			}
+			//PlayerList playerList = serverPlayer.server.getPlayerList();
 			serverPlayer.connection.send(new ClientboundRespawnPacket(serverPlayer.createCommonSpawnInfo(worldServer), (byte) 3));
 			serverPlayer.onUpdateAbilities();
 			try {

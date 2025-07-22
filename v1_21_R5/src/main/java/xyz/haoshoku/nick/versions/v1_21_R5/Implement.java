@@ -70,7 +70,7 @@ public class Implement extends AImplement {
 			try {
 				Field fieldServer = serverPlayer.getClass().getDeclaredField("aW");
 				fieldServer.setAccessible(true);
-				playerList = fieldServer.get(serverPlayer);
+				playerList = (PlayerList) fieldServer.get(serverPlayer);
 			} catch (Exception exc) {
 				throw new RuntimeException(exc);
 			}

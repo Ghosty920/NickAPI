@@ -5,14 +5,18 @@ import com.mojang.authlib.properties.Property;
 import net.minecraft.Optionull;
 import net.minecraft.network.chat.RemoteChatSession;
 import net.minecraft.network.protocol.game.*;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.PositionMoveRotation;
 import net.minecraft.world.entity.player.PlayerModelPart;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_21_R5.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.objectweb.asm.Type;
 import xyz.haoshoku.nick.impl.AImplement;
 import xyz.haoshoku.nick.user.NickHandler;
 import xyz.haoshoku.nick.user.NickUser;
@@ -66,21 +70,21 @@ public class Implement extends AImplement {
 		Location location = player.getLocation().clone();
 		if (respawnPacket && skinChanging) {
 			ServerLevel worldServer = serverPlayer.level();
-			PlayerList playerList;
+			MinecraftServer server = null;
 			try {
-				Field fieldServer = serverPlayer.getClass().getDeclaredField("server");
+				Field fieldServer = serverPlayer.getClass().getDeclaredField("cW");
 				fieldServer.setAccessible(true);
-				playerList = (PlayerList) fieldServer.get(serverPlayer);
+				server = (MinecraftServer) fieldServer.get(serverPlayer);
 			} catch (Exception exc) {
 				throw new RuntimeException(exc);
 			}
-			//PlayerList playerList = serverPlayer.server.getPlayerList();
+			PlayerList playerList = server.getPlayerList();
 			serverPlayer.connection.send(new ClientboundRespawnPacket(serverPlayer.createCommonSpawnInfo(worldServer), (byte) 3));
 			serverPlayer.onUpdateAbilities();
 			try {
-				Method declaredMethod = serverPlayer.connection.getClass().getDeclaredMethod("internalTeleport", Double.TYPE, Double.TYPE, Double.TYPE, Float.TYPE, Float.TYPE, Set.class);
+				Method declaredMethod = serverPlayer.connection.getClass().getDeclaredMethod("internalTeleport", Double.TYPE, Double.TYPE, Double.TYPE, Float.TYPE, Float.TYPE);
 				declaredMethod.setAccessible(true);
-				declaredMethod.invoke(serverPlayer.connection, location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch(), Collections.emptySet());
+				declaredMethod.invoke(serverPlayer.connection, location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

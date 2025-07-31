@@ -3,7 +3,7 @@
   <parent>
     <artifactId>NickAPI</artifactId>
     <groupId>xyz.haoshoku.nick</groupId>
-    <version>v1.0.5b</version>
+    <version>v1.0.6</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>Main</artifactId>
@@ -11,7 +11,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.1.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -36,12 +36,6 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.38</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.github.jitpack</groupId>
-      <artifactId>maven-simple</artifactId>
-      <version>0.1</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

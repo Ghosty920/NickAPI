@@ -72,7 +72,7 @@ public class Implement extends AImplement {
 			ServerLevel worldServer = serverPlayer.level();
 			MinecraftServer server = null;
 			try {
-				Field fieldServer = serverPlayer.getClass().getDeclaredField("cW");
+				Field fieldServer = serverPlayer.getClass().getDeclaredField("cK");
 				fieldServer.setAccessible(true);
 				server = (MinecraftServer) fieldServer.get(serverPlayer);
 			} catch (Exception exc) {

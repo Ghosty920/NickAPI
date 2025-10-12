@@ -2,14 +2,14 @@ package xyz.haoshoku.nick;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import com.mojang.authlib.properties.PropertyMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.event.player.*;
 import xyz.haoshoku.nick.user.NickHandler;
 import xyz.haoshoku.nick.user.NickUser;
-import xyz.haoshoku.nick.utils.DefaultSkins;
-import xyz.haoshoku.nick.utils.Reflection;
+import xyz.haoshoku.nick.utils.*;
 
 import java.util.Map;
 import java.util.UUID;
@@ -100,8 +100,9 @@ public class NickListener implements Listener {
 		user.setPlayer(player);
 		if (NickAPI.getConfig().isCracked()) {
 			final GameProfile profile = Reflection.getGameProfile(player);
-			profile.getProperties().removeAll("textures");
-			profile.getProperties().put("textures", new Property("textures", user.getOriginalSkinData()[0], user.getOriginalSkinData()[1]));
+			final PropertyMap prop = Profile.prop(profile);
+			prop.removeAll("textures");
+			prop.put("textures", new Property("textures", user.getOriginalSkinData()[0], user.getOriginalSkinData()[1]));
 		}
 		NickAPI.getHandler().getIInject().applyGameProfile(player);
 	}

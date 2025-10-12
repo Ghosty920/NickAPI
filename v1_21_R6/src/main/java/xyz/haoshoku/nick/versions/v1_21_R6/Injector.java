@@ -1,7 +1,9 @@
 package xyz.haoshoku.nick.versions.v1_21_R6;
 
+import com.google.common.collect.*;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import com.mojang.authlib.properties.PropertyMap;
 import io.netty.channel.*;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
@@ -107,6 +109,7 @@ public class Injector implements IInject, Listener {
 			return;
 		}
 		GameProfile profile = new GameProfile(player.getUniqueId(), player.getName());
+		hackPropertyMap(profile.properties());
 		String value = "";
 		String signature = "";
 		for (Property property : craftPlayer.getProfile().properties().get("textures")) {
@@ -129,6 +132,17 @@ public class Injector implements IInject, Listener {
 			Connection connectionField = (Connection) field.get(serverGamePacketListener);
 			return connectionField.channel.pipeline();
 		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	private void hackPropertyMap(PropertyMap map) {
+		try {
+			Field field = map.getClass().getDeclaredField("properties");
+			field.setAccessible(true);
+			Multimap<?, ?> prop = (Multimap<?, ?>) field.get(map);
+			Reflection.setField(map, "properties", ArrayListMultimap.create(prop));
+		} catch(Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}

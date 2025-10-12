@@ -25,7 +25,7 @@ public abstract class AImplement {
 			toNick = toNick.substring(0, 16);
 		}
 		user.getQueueMap().put("SetTag", toNick);
-		Reflection.setField(user.getNickProfile(), "name", toNick);
+		Profile.changeName(user, toNick);
 		user.setNickSet(true);
 	}
 	
@@ -88,7 +88,7 @@ public abstract class AImplement {
 		final GameProfile profile = user.getNickProfile();
 		String value = "";
 		String signature = "";
-		for (final Property property : profile.getProperties().get("textures")) {
+		for (final Property property : Profile.prop(profile).get("textures")) {
 			String[] properties = NickUtils.getSkinProperties(property);
 			value = properties[0];
 			signature = properties[1];
@@ -100,7 +100,7 @@ public abstract class AImplement {
 		if (player == null || !player.isOnline()) {
 			return "null";
 		}
-		return NickHandler.getUser(player).getOriginalProfile().getName();
+		return Profile.name(NickHandler.getUser(player).getOriginalProfile());
 	}
 	
 	public void setGameProfileName(final Player player, String name) {
@@ -111,7 +111,7 @@ public abstract class AImplement {
 			name = name.substring(0, 16);
 		}
 		if (NickAPI.getConfig().isGameProfileChanges()) {
-			Reflection.setField(NickHandler.getUser(player).getOriginalProfile(), "name", name);
+			Profile.changeNameOrig(NickHandler.getUser(player), name);
 		}
 	}
 	
@@ -120,7 +120,7 @@ public abstract class AImplement {
 			return;
 		}
 		if (NickAPI.getConfig().isGameProfileChanges()) {
-			Reflection.setField(NickHandler.getUser(player).getOriginalProfile(), "name", NickAPI.getOriginalGameProfileName(player));
+			Profile.changeNameOrig(NickHandler.getUser(player), NickAPI.getOriginalGameProfileName(player));
 		}
 	}
 	
@@ -128,7 +128,7 @@ public abstract class AImplement {
 		if (player == null || !player.isOnline()) {
 			return null;
 		}
-		return NickHandler.getUser(player).getNickProfile().getId();
+		return Profile.id(NickHandler.getUser(player).getNickProfile());
 	}
 	
 	public void setUniqueId(final Player player, final UUID uuid) {
@@ -163,7 +163,7 @@ public abstract class AImplement {
 	
 	public Player getPlayerOfNickedName(final String name) {
 		for (final NickUser user : NickHandler.getUsers()) {
-			if (user != null && user.getNickProfile() != null && user.getNickProfile().getName().equalsIgnoreCase(name)) {
+			if (user != null && user.getNickProfile() != null && Profile.name(user.getNickProfile()).equalsIgnoreCase(name)) {
 				return user.getPlayer();
 			}
 		}
@@ -172,7 +172,7 @@ public abstract class AImplement {
 	
 	public boolean nickExists(final String name) {
 		for (final NickUser user : NickHandler.getUsers()) {
-			if (user != null && user.getOriginalProfile() != null && user.getNickProfile() != null && (user.getOriginalProfile().getName().equalsIgnoreCase(name) || user.getNickProfile().getName().equalsIgnoreCase(name) || NickAPI.getOriginalName(user.getPlayer()).equalsIgnoreCase(name))) {
+			if (user != null && user.getOriginalProfile() != null && user.getNickProfile() != null && (Profile.name(user.getOriginalProfile()).equalsIgnoreCase(name) || Profile.name(user.getNickProfile()).equalsIgnoreCase(name) || NickAPI.getOriginalName(user.getPlayer()).equalsIgnoreCase(name))) {
 				return true;
 			}
 		}
@@ -181,7 +181,7 @@ public abstract class AImplement {
 	
 	public boolean isNickedName(final String name) {
 		for (final NickUser user : NickHandler.getUsers()) {
-			if (user != null && user.getNickProfile() != null && user.getNickProfile().getName() != null && user.getNickProfile().getName().equalsIgnoreCase(name) && !NickAPI.getOriginalName(user.getPlayer()).equalsIgnoreCase(name)) {
+			if (user != null && user.getNickProfile() != null && Profile.name(user.getNickProfile()) != null && Profile.name(user.getNickProfile()).equalsIgnoreCase(name) && !NickAPI.getOriginalName(user.getPlayer()).equalsIgnoreCase(name)) {
 				return true;
 			}
 		}
@@ -192,8 +192,8 @@ public abstract class AImplement {
 		final Map<UUID, String> map = Maps.newHashMap();
 		for (final Player online : Bukkit.getOnlinePlayers()) {
 			final NickUser user = NickHandler.getUser(online);
-			if (user != null && user.getOriginalName() != null && user.getNickProfile() != null && !user.getOriginalName().equals(user.getNickProfile().getName())) {
-				map.put(online.getUniqueId(), user.getNickProfile().getName());
+			if (user != null && user.getOriginalName() != null && user.getNickProfile() != null && !user.getOriginalName().equals(Profile.name(user.getNickProfile()))) {
+				map.put(online.getUniqueId(), Profile.name(user.getNickProfile()));
 			}
 		}
 		return map;
@@ -203,7 +203,7 @@ public abstract class AImplement {
 		if (player == null || !player.isOnline()) {
 			return "null";
 		}
-		return NickHandler.getUser(player).getNickProfile().getName();
+		return Profile.name(NickHandler.getUser(player).getNickProfile());
 	}
 	
 	public void refreshPlayerSync(Player player, boolean async) {
@@ -255,7 +255,7 @@ public abstract class AImplement {
 				}
 				case "SetTag": {
 					String tag = (String) value;
-					Reflection.setField(user.getNickProfile(), "name", tag);
+					Profile.changeName(user, tag);
 					respawnPacket = true;
 					break;
 				}
@@ -271,11 +271,11 @@ public abstract class AImplement {
 					if (value instanceof UUID) {
 						uuid = (UUID) value;
 					}
-					Reflection.setField(user.getNickProfile(), "id", uuid);
+					Profile.changeId(user, uuid);
 					break;
 				}
 				case "SetSkin": {
-					user.getNickProfile().getProperties().removeAll("textures");
+					Profile.prop(user.getNickProfile()).removeAll("textures");
 					String[] data = null;
 					if (value instanceof String[]) {
 						data = (String[]) value;
@@ -290,7 +290,7 @@ public abstract class AImplement {
 					}
 					if (data == null) break;
 					user.setSkinData(data.clone());
-					user.getNickProfile().getProperties().put("textures", new Property("textures", data[0], data[1]));
+					Profile.prop(user.getNickProfile()).put("textures", new Property("textures", data[0], data[1]));
 					respawnPacket = true;
 				}
 			}
@@ -302,18 +302,18 @@ public abstract class AImplement {
 						if (online == player) continue;
 						this.removeInfoPacket(player, online);
 					}
-					Reflection.setField(user.getNickProfile(), "id", player.getUniqueId());
+					Profile.changeId(user, player.getUniqueId());
 					break;
 				}
 				case "ResetSkin": {
-					user.getNickProfile().getProperties().removeAll("textures");
-					user.getNickProfile().getProperties().put("textures", new Property("textures", user.getOriginalSkinData()[0], user.getOriginalSkinData()[1]));
+					Profile.prop(user.getNickProfile()).removeAll("textures");
+					Profile.prop(user.getNickProfile()).put("textures", new Property("textures", user.getOriginalSkinData()[0], user.getOriginalSkinData()[1]));
 					user.setSkinData(user.getOriginalSkinData().clone());
 					respawnPacket = true;
 					break;
 				}
 				case "ResetTag": {
-					Reflection.setField(user.getNickProfile(), "name", user.getOriginalName());
+					Profile.changeName(user, user.getOriginalName());
 					respawnPacket = true;
 				}
 			}

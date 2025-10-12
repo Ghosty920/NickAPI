@@ -5,7 +5,6 @@ import com.mojang.authlib.properties.Property;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
-import java.util.UUID;
 
 public final class Reflection {
 	
@@ -20,11 +19,11 @@ public final class Reflection {
 		}
 	}
 	
-	public static void setField(final Object clazz, final String f, final Object value) {
+	public static void setField(final Object instance, final String f, final Object value) {
 		try {
-			final Field field = clazz.getClass().getDeclaredField(f);
+			final Field field = instance.getClass().getDeclaredField(f);
 			field.setAccessible(true);
-			field.set(clazz, value);
+			field.set(instance, value);
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
@@ -50,22 +49,9 @@ public final class Reflection {
 		}
 	}
 	
-	public static synchronized GameProfile generateGameProfileAsCopy(final UUID uuid, final GameProfile copy) {
-		final GameProfile newProfile = new GameProfile(uuid, copy.getName());
-		String value = "", signature = "";
-		for (final Property property : copy.getProperties().get("textures")) {
-			String[] properties = NickUtils.getSkinProperties(property);
-			value = properties[0];
-			signature = properties[1];
-		}
-		newProfile.getProperties().removeAll("textures");
-		newProfile.getProperties().put("textures", new Property("textures", value, signature));
-		return newProfile;
-	}
-	
 	public static synchronized String[] getSkinData(final GameProfile profile) {
 		String value = "", signature = "";
-		for (final Property property : profile.getProperties().get("textures")) {
+		for (final Property property : Profile.prop(profile).get("textures")) {
 			String[] properties = NickUtils.getSkinProperties(property);
 			value = properties[0];
 			signature = properties[1];

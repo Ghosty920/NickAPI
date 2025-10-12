@@ -17,7 +17,12 @@ public class Handler {
 	private AImplement aImplement;
 	
 	public Handler() {
-		this.version = MCVersion.find().name();
+		MCVersion ver = MCVersion.find();
+		if(ver == null) {
+			Bukkit.getLogger().severe("The Minecraft version couldn't be resolved. Wait for your plugin to update.");
+			throw new NullPointerException("Unknown Minecraft version - "+Bukkit.getServer().getVersion());
+		}
+		this.version = ver.name();
 		try {
 			this.initializeVersion();
 		} catch (final Exception e) {

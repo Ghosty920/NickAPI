@@ -6,7 +6,7 @@
 
     <groupId>xyz.haoshoku.nick</groupId>
     <artifactId>NickAPI</artifactId>
-    <version>v1.0.8</version>
+    <version>v1.0.9</version>
     <packaging>pom</packaging>
     <modules>
         <module>API</module>
@@ -20,6 +20,7 @@
         <module>v1_21_R4</module>
         <module>v1_21_R5</module>
         <module>v1_21_R6</module>
+        <module>v1_21_R7</module>
         <module>Main</module>
     </modules>
 

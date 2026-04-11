@@ -22,6 +22,7 @@ import im.ghosty.nickapi.utils.Reflection;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Injector implements IInject, Listener {
@@ -52,6 +53,7 @@ public class Injector implements IInject, Listener {
 	public void inject(Player player) {
 		final ChannelDuplexHandler duplexHandler = new ChannelDuplexHandler() {
 			public void write(final ChannelHandlerContext ctx, final Object packet, final ChannelPromise promise) throws Exception {
+				Object packetToWrite = packet;
 				if (packet instanceof ClientboundPlayerInfoUpdatePacket) {
 					ClientboundPlayerInfoUpdatePacket infoPacket = (ClientboundPlayerInfoUpdatePacket) packet;
 					final List<ClientboundPlayerInfoUpdatePacket.Entry> infoDataListClone = new ArrayList<>(infoPacket.entries());
@@ -64,7 +66,7 @@ public class Injector implements IInject, Listener {
 								if (receivedPlayer.isOnline()) {
 									final NickUser user = NickHandler.getUserByUUID(receivedProfile.id());
 									if (user != null) {
-										if (receivedProfile.id() != player.getUniqueId()) {
+										if (!receivedProfile.id().equals(player.getUniqueId())) {
 											final GameProfile profile = new GameProfile(receivedProfile.id(), user.getNickProfile().name());
 											profile.properties().removeAll("textures");
 											profile.properties().put("textures", new Property("textures", user.getSkinData()[0], user.getSkinData()[1]));
@@ -77,9 +79,20 @@ public class Injector implements IInject, Listener {
 							}
 						}
 					}
-					Reflection.setField(infoPacket, "c", infoDataListClone);
+					Object actions = Reflection.getDeclaredField(infoPacket, "a");
+					if (actions == null) {
+						actions = Reflection.getDeclaredField(infoPacket, "actions");
+					}
+					if (actions instanceof java.util.EnumSet<?>) {
+						@SuppressWarnings("unchecked")
+						java.util.EnumSet<ClientboundPlayerInfoUpdatePacket.Action> actionSet =
+								(java.util.EnumSet<ClientboundPlayerInfoUpdatePacket.Action>) ((java.util.EnumSet<?>) actions).clone();
+						ClientboundPlayerInfoUpdatePacket packetClone = new ClientboundPlayerInfoUpdatePacket(actionSet, Collections.emptyList());
+						Reflection.setField(packetClone, "c", infoDataListClone);
+						packetToWrite = packetClone;
+					}
 				}
-				super.write(ctx, packet, promise);
+				super.write(ctx, packetToWrite, promise);
 			}
 		};
 		final ChannelPipeline pipeline = this.pipeline(player);

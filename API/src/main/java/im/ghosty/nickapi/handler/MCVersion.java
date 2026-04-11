@@ -2,6 +2,9 @@ package im.ghosty.nickapi.handler;
 
 import org.bukkit.Bukkit;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 enum MCVersion {
 	
 	v1_20_R1("1.20", "1.20.1"),
@@ -15,12 +18,12 @@ enum MCVersion {
 	v1_21_R5("1.21.6", "1.21.7", "1.21.8"),
 	v1_21_R6("1.21.9", "1.21.10"),
 	v1_21_R7("1.21.11"),
-	v26_1("26.1");
+	v26_1("26.1", "26.1.1", "26.1.2");
 	
-	public final String[] versionNames;
+	public final HashSet<String> versionNames;
 	
 	MCVersion(String... versionNames) {
-		this.versionNames = versionNames;
+		this.versionNames = new HashSet<>(Arrays.asList(versionNames));
 	}
 	
 	public static MCVersion find() {
@@ -44,8 +47,25 @@ enum MCVersion {
 		// so let's use a new one, using Bukkit.getBukkitVersion()
 		// - which returns something like '1.21.11-R0.1-SNAPSHOT'
 		String version = Bukkit.getServer().getBukkitVersion().split("-")[0];
+		int buildIndex = version.lastIndexOf(".build."); // spigot adds a ".build.X" to the version
+		if(buildIndex != -1) version = version.substring(0, buildIndex);
+		
 		for (MCVersion ver : values()) {
-			if (ver.name().equals(version)) return ver;
+			if (ver.versionNames.contains(version)) return ver;
+		}
+		
+		// fuck it, let's get the closer one and hop it works ^^
+		if (version.startsWith("26.")) { // 26.x.x only
+			int numberDots = version.split("\\.").length;
+			System.out.println(numberDots);
+			if (numberDots == 3) {
+				System.out.println(version);
+				version = version.substring(0, version.lastIndexOf("."));
+				System.out.println(version);
+				for (MCVersion ver : values()) {
+					if (ver.versionNames.contains(version)) return ver;
+				}
+			}
 		}
 		
 		return null;

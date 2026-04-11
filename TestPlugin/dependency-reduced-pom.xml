@@ -33,62 +33,30 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>im.ghosty.nickapi</groupId>
-      <artifactId>Main</artifactId>
-      <version>v1.1.0</version>
+      <groupId>org.spigotmc</groupId>
+      <artifactId>spigot-api</artifactId>
+      <version>26.1-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
-          <artifactId>API</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>v1_20_R1</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
+          <artifactId>gson</artifactId>
+          <groupId>com.google.code.gson</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>v1_20_R2</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
+          <artifactId>joml</artifactId>
+          <groupId>org.joml</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>v1_20_R3</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
+          <artifactId>bungeecord-serializer</artifactId>
+          <groupId>net.md-5</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>v1_20_R4</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>v1_21_R1</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>v1_21_R2</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>v1_21_R3</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>v1_21_R4</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>v1_21_R5</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>v1_21_R6</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>v1_21_R7</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>v26_1</artifactId>
-          <groupId>im.ghosty.nickapi</groupId>
+          <artifactId>snakeyaml</artifactId>
+          <groupId>org.yaml</groupId>
         </exclusion>
       </exclusions>
     </dependency>

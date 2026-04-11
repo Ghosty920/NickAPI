@@ -57,11 +57,8 @@ enum MCVersion {
 		// fuck it, let's get the closer one and hop it works ^^
 		if (version.startsWith("26.")) { // 26.x.x only
 			int numberDots = version.split("\\.").length;
-			System.out.println(numberDots);
 			if (numberDots == 3) {
-				System.out.println(version);
 				version = version.substring(0, version.lastIndexOf("."));
-				System.out.println(version);
 				for (MCVersion ver : values()) {
 					if (ver.versionNames.contains(version)) return ver;
 				}

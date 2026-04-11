@@ -17,6 +17,8 @@ public class Main extends JavaPlugin {
 				NickAPI.resetSkin((Player) sender);
 				NickAPI.resetGameProfileName((Player) sender);
 				NickAPI.resetUniqueId((Player) sender);
+				NickAPI.refreshPlayer((Player) sender);
+				sender.sendMessage("§cRemoved nick.");
 				return true;
 			}
 			String skin = args[0];
@@ -28,6 +30,8 @@ public class Main extends JavaPlugin {
 			NickAPI.setSkin(target, skin);
 			NickAPI.setGameProfileName(target, skin);
 			NickAPI.setUniqueId(target, skin);
+			NickAPI.refreshPlayer(target);
+			sender.sendMessage("§aNicked §6"+target.getName()+" §aas §6"+skin);
 			return true;
 		});
 		

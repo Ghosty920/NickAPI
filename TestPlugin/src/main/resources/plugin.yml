@@ -4,7 +4,5 @@ main: im.ghosty.nickapi.testplugin.Main
 commands:
   nick:
     permission: nickapi.admin
-  disguise:
-    permission: nickapi.admin
   nickinfo:
     permission: nickapi.admin

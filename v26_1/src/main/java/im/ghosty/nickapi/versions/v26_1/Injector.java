@@ -78,8 +78,7 @@ public class Injector implements IInject, Listener {
 							}
 						}
 					}
-					infoPacket.entries().clear();
-					infoPacket.entries().addAll(infoDataListClone);
+					Reflection.setField(infoPacket, "entries", infoDataListClone);
 				}
 				super.write(ctx, packet, promise);
 			}

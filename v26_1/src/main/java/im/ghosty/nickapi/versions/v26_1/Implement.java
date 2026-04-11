@@ -16,6 +16,8 @@ import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import org.bukkit.Location;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
@@ -60,13 +62,13 @@ public class Implement extends AImplement {
 		ClientboundPlayerInfoRemovePacket removeInfo = new ClientboundPlayerInfoRemovePacket(Collections.singletonList(player.getUniqueId()));
 		EnumSet<ClientboundPlayerInfoUpdatePacket.Action> actions = NickUtils.getEnumSet(ClientboundPlayerInfoUpdatePacket.Action.values());
 		ClientboundPlayerInfoUpdatePacket addInfo = new ClientboundPlayerInfoUpdatePacket(actions, Collections.singletonList(serverPlayer));
-		Reflection.setField(addInfo, "actions", Collections.singletonList(new ClientboundPlayerInfoUpdatePacket.Entry(player.getUniqueId(), copiedGameProfile, true, player.getPing(), serverPlayer.gameMode.getGameModeForPlayer(), null, serverPlayer.isModelPartShown(PlayerModelPart.HAT), serverPlayer.listOrder, Optionull.map(serverPlayer.getChatSession(), RemoteChatSession::asData))));
+		Reflection.setField(addInfo, "entries", Collections.singletonList(new ClientboundPlayerInfoUpdatePacket.Entry(player.getUniqueId(), copiedGameProfile, true, player.getPing(), serverPlayer.gameMode.getGameModeForPlayer(), null, serverPlayer.isModelPartShown(PlayerModelPart.HAT), serverPlayer.listOrder, Optionull.map(serverPlayer.getChatSession(), RemoteChatSession::asData))));
 		serverPlayer.connection.send(removeInfo);
 		serverPlayer.connection.send(addInfo);
 		Location location = player.getLocation().clone();
 		if (respawnPacket && skinChanging) {
 			ServerLevel worldServer = serverPlayer.level();
-			PlayerList playerList = serverPlayer.server.getPlayerList();
+			PlayerList playerList = ((CraftServer) Bukkit.getServer()).getHandle();
 			serverPlayer.connection.send(new ClientboundRespawnPacket(serverPlayer.createCommonSpawnInfo(worldServer), (byte) 3));
 			serverPlayer.onUpdateAbilities();
 			try {

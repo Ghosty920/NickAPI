@@ -1,0 +1,10 @@
+name: NickAPI-TestPlugin
+version: 1.0.0
+main: im.ghosty.nickapi.testplugin.Main
+commands:
+  nick:
+    permission: nickapi.admin
+  disguise:
+    permission: nickapi.admin
+  nickinfo:
+    permission: nickapi.admin

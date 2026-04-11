@@ -6,8 +6,6 @@ With this fork, the API can be directly shaded into your plugin, removing the ne
 
 ## Usage
 
-You can include the plugin using [JitPack](https://jitpack.io/#Ghosty920/NickAPI).
-
 **build.gradle:** (Use `gradlew shadowJar`)
 
 ```groovy
@@ -16,16 +14,16 @@ plugins {
 }
 
 repositories {
-    maven { url 'https://jitpack.io' }
+    maven { url 'https://repo.codemc.io/repository/ghosty920/' }
 }
 
 dependencies {
-    implementation 'com.github.Ghosty920.NickAPI:Main:main-SNAPSHOT'
+    implementation 'im.ghosty.nickapi:Main:version'
 }
 
 tasks.shadowJar {
     // Relocating prevents multiple plugins using the same folder and possibly breaking
-    relocate 'xyz.haoshoku.nick', 'myproject.deps.xyz.haoshoku.nick'
+    relocate 'im.ghosty.nickapi', 'myproject.deps.im.ghosty.nickapi'
 }
 ```
 
@@ -37,16 +35,16 @@ plugins {
 }
 
 repositories {
-    maven("https://jitpack.io")
+    maven("https://repo.codemc.io/repository/ghosty920/")
 }
 
 dependencies {
-    implementation("com.github.Ghosty920.NickAPI:Main:main-SNAPSHOT")
+    implementation("im.ghosty.nickapi:Main:version")
 }
 
 tasks.shadowJar {
     // Relocating prevents multiple plugins using the same folder and possibly breaking
-    relocate("xyz.haoshoku.nick", "myproject.deps.xyz.haoshoku.nick")
+    relocate("im.ghosty.nickapi", "myproject.deps.im.ghosty.nickapi")
 }
 ```
 
@@ -56,16 +54,16 @@ tasks.shadowJar {
 
 <repositories>
     <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
+        <id>codemc-ghosty</id>
+        <url>https://repo.codemc.io/repository/ghosty920/</url>
     </repository>
 </repositories>
 
 <dependencies>
 <dependency>
-    <groupId>com.github.Ghosty920.NickAPI</groupId>
+    <groupId>im.ghosty.nickapi</groupId>
     <artifactId>Main</artifactId>
-    <version>main-SNAPSHOT</version>
+    <version>version</version>
 </dependency>
 </dependencies>
 
@@ -85,8 +83,8 @@ tasks.shadowJar {
                     <!-- Relocating prevents multiple plugins using the same folder and possibly breaking -->
                     <relocations>
                         <relocation>
-                            <pattern>xyz.haoshoku.nick</pattern>
-                            <shadedPattern>myproject.deps.xyz.haoshoku.nick</shadedPattern>
+                            <pattern>im.ghosty.nickapi</pattern>
+                            <shadedPattern>myproject.deps.im.ghosty.nickapi</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -116,7 +114,7 @@ public class MyPlugin extends JavaPlugin {
 	}
 	
 	/**
-     * Example implementation of a nick feature
+	 * Example implementation of a nick feature
 	 */
 	public void nick(Player player, String username) {
 		NickAPI.nick(player, name);
@@ -130,13 +128,20 @@ public class MyPlugin extends JavaPlugin {
 ```
 
 More methods can be found in
-the [NickAPI class](https://github.com/Ghosty920/NickAPI/blob/main/API/src/main/java/xyz/haoshoku/nick/NickAPI.java).
+the [NickAPI class](https://github.com/Ghosty920/NickAPI/blob/main/API/src/main/java/im/ghosty/nickapi/NickAPI.java).
 
 ## Building
 
 Simply run `mvn clean install -f pom.xml`, and it will automatically build and install it to your `.m2` folder.
 
-Make sure to build using Java 21.
+Make sure to have Java 21 and 25.
+
+## Upgrading
+
+### From v1.0.x to v1.1.x
+
+The package changed from `xyz.haoshoku.nick` to `im.ghosty.nickapi`.
+On IDEA, you can use `Ctrl + Shift + R` to change every occurrence.
 
 ## Credits
 

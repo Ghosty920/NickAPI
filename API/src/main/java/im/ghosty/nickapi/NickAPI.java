@@ -21,6 +21,8 @@ public final class NickAPI {
 	private static NickConfig config;
 	private static UUIDFetcher uuidFetcher;
 	private static SkinFetcher skinFetcher;
+
+	// I think I'm miku 
 	
 	@Getter
 	private static Plugin plugin;

@@ -112,7 +112,7 @@ public abstract class AImplement {
 			name = name.substring(0, 16);
 		}
 		if (NickAPI.getConfig().isGameProfileChanges()) {
-			Profile.changeNameOrig(NickHandler.getUser(player), name);
+			Profile.changeName(NickHandler.getUser(player), name);
 		}
 	}
 	
@@ -121,7 +121,7 @@ public abstract class AImplement {
 			return;
 		}
 		if (NickAPI.getConfig().isGameProfileChanges()) {
-			Profile.changeNameOrig(NickHandler.getUser(player), NickAPI.getOriginalGameProfileName(player));
+			Profile.changeName(NickHandler.getUser(player), NickAPI.getOriginalGameProfileName(player));
 		}
 	}
 	

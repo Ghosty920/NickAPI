@@ -22,6 +22,10 @@
             <id>spigotmc</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>ghosty-mirrors</id>
+            <url>https://mvn.ghosty.im/mirrors</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -36,6 +40,13 @@
             <artifactId>spigot</artifactId>
             <version>1.21.11-R0.1-SNAPSHOT</version>
             <classifier>remapped-mojang</classifier>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <!-- TAB -->
+            <groupId>me.neznamy</groupId>
+            <artifactId>api</artifactId>
+            <version>6.0.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

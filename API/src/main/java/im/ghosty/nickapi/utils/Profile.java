@@ -2,10 +2,15 @@ package im.ghosty.nickapi.utils;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.PropertyMap;
-import lombok.experimental.UtilityClass;
+import im.ghosty.nickapi.NickAPI;
 import im.ghosty.nickapi.user.NickUser;
+import lombok.experimental.UtilityClass;
+import me.neznamy.tab.api.TabAPI;
+import me.neznamy.tab.api.TabPlayer;
+import me.neznamy.tab.api.tablist.TabListFormatManager;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.UUID;
 
 @UtilityClass
@@ -64,14 +69,28 @@ public final class Profile {
 			GameProfile profile = new GameProfile(id(user.getNickProfile()), name, prop(user.getNickProfile()));
 			user.setNickProfile(profile);
 		}
+		
+		setTABName(user, name);
 	}
 	
-	public static void changeNameOrig(NickUser user, String name) {
-		if (!isRecord)
-			Reflection.setField(user.getOriginalProfile(), "name", name);
-		else {
-			GameProfile profile = new GameProfile(id(user.getOriginalProfile()), name, prop(user.getOriginalProfile()));
-			user.setOriginalProfile(profile);
+	private static void setTABName(NickUser user, String name) {
+		if (!NickAPI.getConfig().isTabCompatibility()) return;
+		try {
+			TabPlayer player = TabAPI.getInstance().getPlayer(user.getUuid());
+			// we need the shared TabPlayer type, but eh can't add it so we'll use reflection instead
+			Method method = player.getClass().getMethod("setExpectedProfileName", String.class);
+			method.invoke(player, name);
+			// modify directly in the tablist manager as well, as its the main issue with TAB
+			TabListFormatManager manager = TabAPI.getInstance().getTabListFormatManager();
+			if (!Objects.equals(name, user.getOriginalName()))
+				manager.setName(player, manager.getOriginalRawName(player).replace("%player%", name));
+			else
+				manager.setName(player, null);
+		} catch (NoClassDefFoundError exc) {
+			// that's normal
+		} catch (Throwable exc) {
+			// that's anormal
+			exc.printStackTrace();
 		}
 	}
 	

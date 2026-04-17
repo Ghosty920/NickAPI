@@ -2,6 +2,7 @@ package im.ghosty.nickapi.testplugin;
 
 import im.ghosty.nickapi.NickAPI;
 import org.bukkit.entity.Player;
+import lombok.SneakyThrows;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -9,10 +10,11 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		super.onEnable();
+		NickAPI.setupConfig(new File(getDataFolder(), "config.yml"));
 		NickAPI.setPlugin(this);
 		
 		getCommand("nick").setExecutor((sender, cmd, label, args) -> {
-			if(args.length == 0) {
+			if (args.length == 0) {
 				NickAPI.resetNick((Player) sender);
 				NickAPI.resetSkin((Player) sender);
 				NickAPI.resetGameProfileName((Player) sender);
@@ -31,7 +33,7 @@ public class Main extends JavaPlugin {
 			NickAPI.setGameProfileName(target, skin);
 			NickAPI.setUniqueId(target, skin);
 			NickAPI.refreshPlayer(target);
-			sender.sendMessage("§aNicked §6"+target.getName()+" §aas §6"+skin);
+			sender.sendMessage("§aNicked §6" + target.getName() + " §aas §6" + skin);
 			return true;
 		});
 		

@@ -1,5 +1,6 @@
 package im.ghosty.nickapi.user;
 
+import com.google.common.base.MoreObjects;
 import com.mojang.authlib.GameProfile;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,22 @@ public class NickUser {
 	public NickUser(final UUID uuid) {
 		this.uuid = uuid;
 		this.queueMap = new ConcurrentHashMap<>();
+	}
+	
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this)
+			.add("uuid", uuid)
+			.add("fakeUuid", fakeUUID)
+			.add("skinData", "["+String.join(", ", skinData)+"]")
+			.add("originalSkinData", "["+String.join(", ", originalSkinData)+"]")
+			.add("name", player.getName())
+			.add("originalName", originalName)
+			.add("teamName", teamName)
+			.add("nickProfile", nickProfile)
+			.add("originalProfile", originalProfile)
+			.add("queueMap", queueMap)
+			.toString();
 	}
 	
 }

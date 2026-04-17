@@ -37,8 +37,9 @@ command_support:
   # If you enable 'remove_original_name', the interaction with original name is blocked.
   original_player_replacement: 'Unavailable'
 
-# If you set this to false, Minetools will be used for UUID/Skin data instead of Mojang API.
+# If you set this to false, playerdb.co will always be used for UUID/Skin data instead of Mojang API.
 # The advantage is that you are able to bypass the request limit.
+# This is recommanded on free/cheap hosting services, as the servers can share the same ip.
 mojang_api: true
 
 # NickAPI caches the data after requesting the data from the Mojang API.
@@ -54,3 +55,8 @@ cracked:
   # If you are using BungeeCord, please download "NickAPIBungee.jar" from SpigotMC.org and put it into your BungeeCord folder.
   # You may delete SkinsRestorer for a better experience.
   enabled: false
+
+# TAB plugin compatibility
+# This will try to make TAB not fuck up with NickAPI.
+# It does nothing if TAB is not installed, so it's better to keep it on if you don't know what you're doing.
+tab_compatibility: true

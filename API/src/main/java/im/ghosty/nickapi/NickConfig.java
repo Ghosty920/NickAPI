@@ -36,9 +36,11 @@ public final class NickConfig {
 	private int tabComplete = 1;
 	
 	/**
-	 * If you set this to false, Minetools will be used for UUID/Skin data instead of Mojang API.
+	 * If you set this to false, playerdb.co will always be used for UUID/Skin data instead of Mojang API.
 	 * <p>
 	 * The advantage is that you are able to bypass the request limit.
+	 * <p>
+	 * This is recommanded on free/cheap hosting services, as the servers can share the same ip.
 	 */
 	private boolean mojangAPI = true;
 	
@@ -111,6 +113,13 @@ public final class NickConfig {
 	 */
 	private boolean cracked = false;
 	
+	/**
+	 * Enable this if you want to have TAB installed on your server
+	 * <p>
+	 * It costs nothing to have it enabled, since it won't do anything if TAB is absent.
+	 */
+	private boolean tabCompatibility = true;
+	
 	public NickConfig() {
 	}
 	
@@ -127,6 +136,7 @@ public final class NickConfig {
 		this.cacheResetTimeUUID = config.getInt("cache_reset_time.uuid", 30);
 		this.cacheResetTimeSkin = config.getInt("cache_reset_time.skin", 30);
 		this.cracked = config.getBoolean("cracked.enabled", false);
+		this.tabCompatibility = config.getBoolean("tab_compatibility", true);
 	}
 	
 }

@@ -2,12 +2,13 @@ package im.ghosty.nickapi.utils;
 
 import com.google.common.cache.*;
 import com.google.gson.JsonParser;
-import org.bukkit.Bukkit;
 import im.ghosty.nickapi.NickAPI;
+import org.bukkit.Bukkit;
 
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -17,44 +18,56 @@ public final class UUIDFetcher {
 	
 	private final LoadingCache<String, UUID> cache = CacheBuilder.newBuilder().expireAfterWrite(NickAPI.getConfig().getCacheResetTimeUUID(), TimeUnit.MINUTES).build(new CacheLoader<String, UUID>() {
 		@Override
-		public UUID load(final String name) {
-			try {
-				UUID uuid;
-				if (NickAPI.getConfig().isMojangAPI()) {
-					final URLConnection urlConnection = new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openConnection();
+		public UUID load(String name) {
+			if (NickAPI.getConfig().isMojangAPI()) {
+				try {
+					URLConnection urlConnection = new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openConnection();
 					urlConnection.setReadTimeout(3000);
-					final String uuidAsString = JsonParser.parseReader(new InputStreamReader(urlConnection.getInputStream())).getAsJsonObject().get("id").toString().replace("\"", "");
-					uuid = UUIDFetcher.this.applyUniqueId(uuidAsString);
-				} else {
-					final URLConnection urlConnection = new URL("https://api.minetools.eu/uuid/" + name).openConnection();
-					urlConnection.setReadTimeout(3000);
-					final String uuidAsString = JsonParser.parseReader(new InputStreamReader(urlConnection.getInputStream())).getAsJsonObject().get("id").toString().replace("\"", "");
-					if (uuidAsString.equals("null")) {
-						uuid = UUID.randomUUID();
-						return uuid;
-					}
-					uuid = UUIDFetcher.this.applyUniqueId(uuidAsString);
+					String uuidAsString = JsonParser
+						.parseReader(new InputStreamReader(urlConnection.getInputStream())).getAsJsonObject()
+						.get("id").getAsString();
+					return UUIDFetcher.this.applyUniqueId(uuidAsString);
+				} catch (Throwable ignored) {
+					// okay, let's ignore this issue, and try using the alternative method
 				}
-				return uuid;
-			} catch (final Exception ignore) {
-				return UUID.randomUUID();
 			}
+			try {
+				URLConnection urlConnection = new URL("https://playerdb.co/api/player/minecraft/" + name).openConnection();
+				urlConnection.setReadTimeout(3000);
+				String uuidAsString = JsonParser
+					.parseReader(new InputStreamReader(urlConnection.getInputStream())).getAsJsonObject()
+					.get("data").getAsJsonObject()
+					.get("player").getAsJsonObject()
+					.get("id").getAsString();
+				return UUID.fromString(uuidAsString);
+			} catch (Throwable ignored) {
+				// everything online failed unfortunately, so let's do it another way! (please fix your connection)
+			}
+			try {
+				return UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
+			} catch (Throwable ignored) {
+				// okay it's starting to get sad
+			}
+			// if everything SOMEHOW FAILED ?!, let's use a random uuid
+			return UUID.randomUUID();
 		}
+		
 	});
 	
-	public UUID getUUIDByName(final String name) {
+	public UUID getUUIDByName(String name) {
 		try {
 			return this.cache.get(name);
-		} catch (final ExecutionException e) {
+		} catch (ExecutionException exc) {
+			exc.printStackTrace(); // should never happen
 			return UUID.randomUUID();
 		}
 	}
 	
-	private UUID applyUniqueId(final String uuidAsString) {
+	private UUID applyUniqueId(String uuidAsString) {
 		return UUID.fromString(new StringBuffer(uuidAsString).insert(8, "-").insert(13, "-").insert(18, "-").insert(23, "-").toString());
 	}
 	
-	public void getUUIDByNameAsync(final String name, final Consumer<UUID> consumer) {
+	public void getUUIDByNameAsync(String name, Consumer<UUID> consumer) {
 		Bukkit.getScheduler().runTaskAsynchronously(NickAPI.getPlugin(), () -> consumer.accept(this.getUUIDByName(name)));
 	}
 	

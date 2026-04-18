@@ -1,17 +1,37 @@
 package im.ghosty.nickapi.testplugin;
 
+import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.event.PacketListenerPriority;
 import im.ghosty.nickapi.NickAPI;
+import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import org.bukkit.entity.Player;
 import lombok.SneakyThrows;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public class Main extends JavaPlugin {
 	
+	private static final boolean packetEvents = false;
+	
+	@Override
+	public void onLoad() {
+		if (packetEvents) {
+			PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+			PacketEvents.getAPI().load();
+			
+			PacketEvents.getAPI().getEventManager().registerListener(new PacketsListener(),
+				PacketListenerPriority.NORMAL);
+		}
+	}
+	
+	@SneakyThrows
 	@Override
 	public void onEnable() {
 		super.onEnable();
 		NickAPI.setupConfig(new File(getDataFolder(), "config.yml"));
 		NickAPI.setPlugin(this);
+		if (packetEvents) PacketEvents.getAPI().init();
 		
 		getCommand("nick").setExecutor((sender, cmd, label, args) -> {
 			if (args.length == 0) {
@@ -50,6 +70,11 @@ public class Main extends JavaPlugin {
 			);
 			return true;
 		});
+	}
+	
+	@Override
+	public void onDisable() {
+		if (packetEvents) PacketEvents.getAPI().terminate();
 	}
 	
 }

@@ -18,7 +18,7 @@ enum MCVersion {
 	v1_21_R5("1.21.6", "1.21.7", "1.21.8"),
 	v1_21_R6("1.21.9", "1.21.10"),
 	v1_21_R7("1.21.11"),
-	v26_1("26.1", "26.1.1", "26.1.2");
+	v26_1("26.1", "26.1.1", "26.1.2", "26.2"); // assume 26.2 will work the same as 26.1
 	
 	public final HashSet<String> versionNames;
 	
